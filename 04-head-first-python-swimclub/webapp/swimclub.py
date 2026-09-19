@@ -2,7 +2,8 @@ import hfpy_utils
 CHARTS = "charts/"
 
 import statistics
-FOLDER = "swimdata/"
+import os
+FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "swimdata/") #AI code to fix the path to the swimdata folder
 def read_swim_data(filename):
     swimmer, age, distance, stroke = filename.removesuffix(".txt").split("-")
     with open(FOLDER + filename) as file:
