@@ -7,8 +7,10 @@ app.secret_key = "YouWillNeverGuessThisSecretKey"
 
 @app.get("/")
 def index():
-    return render_template("index.html")
-
+    return render_template(
+        "index.html", 
+        title="Welcome to the Swimclub system",
+    )
 def populate_data():
     if "swimmers" not in session:
         swim_files = os.listdir(swimclub.FOLDER)
@@ -23,7 +25,13 @@ def populate_data():
 @app.get("/swimmers")
 def display_swimmers():
     populate_data()
-    return str(sorted(session["swimmers"]))
+    return render_template(
+        "select.html",
+        title="Select a Swimmer",
+        url="/showfiles",
+        select_id="swimmer",
+        data=sorted(session["swimmers"])
+    )
 
 @app.get("/files/<swimmer>")
 def get_swimmers_files(swimmer):
