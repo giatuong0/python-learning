@@ -1,6 +1,6 @@
 import os
 import swimclub
-from flask import Flask,session , render_template
+from flask import Flask, request,session , render_template
 
 app = Flask(__name__)
 app.secret_key = "YouWillNeverGuessThisSecretKey"
@@ -33,10 +33,17 @@ def display_swimmers():
         data=sorted(session["swimmers"])
     )
 
-@app.get("/files/<swimmer>")
-def get_swimmers_files(swimmer):
+@app.post("/showfiles")
+def display_swimmer_files():
     populate_data()
-    return str(session["swimmers"][swimmer])
+    name = request.form["swimmer"]
+    return render_template(
+        "select.html",
+        title="Select an event",
+        url="/showbarchart",
+        select_id="file",
+        data=session["swimmers"][name]
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
