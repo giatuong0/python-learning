@@ -1,6 +1,7 @@
 import os
 import swimclub
 from flask import Flask, request,session , render_template
+print("WORKING DIR:", os.getcwd()) #(check for working dir of VScode)
 
 app = Flask(__name__)
 app.secret_key = "YouWillNeverGuessThisSecretKey"
@@ -44,6 +45,12 @@ def display_swimmer_files():
         select_id="file",
         data=session["swimmers"][name]
     )
+
+@app.post("/showbarchart")
+def show_bar_chart():
+    file_id = request.form["file"]
+    location = swimclub.produce_bar_chart(file_id, "templates/")
+    return render_template(location.split("/")[-1])
 
 if __name__ == "__main__":
     app.run(debug=True)

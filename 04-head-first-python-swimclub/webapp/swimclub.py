@@ -26,10 +26,10 @@ def read_swim_data(filename):
     average = f"{minutes}:{seconds:0>2}.{hundredths}"
     return swimmer, age, distance, stroke, times, average, converts
 
-def produce_bar_chart(fn):
+def produce_bar_chart(fn, location=CHARTS):
     """Given the name of a swimmer's file, produce a HTML/SVG-based bar chart.
 
-    Save the chart to the CHARTS folder. Return the path to the bar chart file.
+    Save the chart to the specified location (location is the default). Return the path to the bar chart file.
     """
     swimmer, age, distance, stroke, times, average, converts = read_swim_data(fn)
     from_max = max(converts)
@@ -57,7 +57,7 @@ def produce_bar_chart(fn):
         </body>
     </html>"""
     page = header + body + footer
-    save_to = f"{CHARTS}{fn.removesuffix('.txt')}.html"
+    save_to = f"{location}{fn.removesuffix('.txt')}.html" #(old code is CHARTS) location is the folder where the chart will be saved. If no location is provided, it defaults to CHARTS. The output filename comes from the swimmer data filename, with .txt removed and .html added.
     with open(save_to, "w") as sf:
         print(page, file=sf)
 
