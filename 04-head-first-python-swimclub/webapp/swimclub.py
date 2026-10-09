@@ -1,9 +1,31 @@
+import json
 import hfpy_utils
-CHARTS = "charts/"
-
 import statistics
 import os
+
+CHARTS = "charts/"
+FOLDER = "swimdata/" #reduntant  
+JSONDATA = "records.json"
+
+def event_lookup(event):
+    """Convert from filenames to dictionary keys."""
+
+    conversions = {
+        "Free": "freestyle",
+        "Back": "backstroke",
+        "Breast": "breaststroke",
+        "Fly": "butterfly",
+        "IM": "individual medley",
+    }
+
+    *_, distance, stroke = event.removesuffix(".txt").split("-")
+
+    return f"{distance} {conversions[stroke]}"
+
+
 FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "swimdata/") #AI code to fix the path to the swimdata folder
+
+
 def read_swim_data(filename):
     swimmer, age, distance, stroke = filename.removesuffix(".txt").split("-")
     with open(FOLDER + filename) as file:
@@ -26,6 +48,7 @@ def read_swim_data(filename):
     average = f"{minutes}:{seconds:0>2}.{hundredths}"
     return swimmer, age, distance, stroke, times, average, converts
 
+
 def produce_bar_chart(fn, location=CHARTS):
     """Given the name of a swimmer's file, produce a HTML/SVG-based bar chart.
 
@@ -36,7 +59,6 @@ def produce_bar_chart(fn, location=CHARTS):
     times.reverse()
     converts.reverse()
     title = f"{swimmer} (Under {age}) {distance} {stroke}"
-
     header = f"""<!DOCTYPE html>
     <html>
         <head>
