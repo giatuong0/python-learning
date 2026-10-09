@@ -75,8 +75,15 @@ def produce_bar_chart(fn, location=CHARTS):
                             <rect height="30" width="{bar_width}" style="fill:rgb(0,0,255);" />
                         </svg>{t}<br />
                         """
+        with open (JSONDATA) as jf:
+            records = json.load(jf)
+        COURSES = ("LC Men", "LC Women", "SC Men", "SC Women")
+        times = []
+        for course in COURSES:
+            times.append(records[course][event_lookup(fn)])
     footer = f"""
             <p>Average time: {average}</p>
+            <p>M: {times[0]} ({times[2]})<br />W: {times[1]} ({times[3]})</p>
         </body>
     </html>"""
     page = header + body + footer
