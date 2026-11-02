@@ -55,3 +55,6 @@ def get_swimmers_times(name, age, distance, stroke, date):
     return results
 
 
+# queries.py says what to ask inside "CoachDB.sqlite3", 
+# data_utils.py asks it and returns the answer, 
+# and app.py uses the answer.

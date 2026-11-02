@@ -28,3 +28,6 @@ SQL_CHART_DATA_BY_SWIMMER_EVENT_SESSION = """
     events.id = times.event_id and
     date(times.ts) = ?
 """
+# queries.py says what to ask inside "CoachDB.sqlite3", 
+# data_utils.py asks it and returns the answer, 
+# and app.py uses the answer.

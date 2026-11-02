@@ -72,3 +72,6 @@ with DBcm.UseDatabase(db_details) as db:
             times = sf.read().strip().split(",")
             for t in times:
                 db.execute(SQL_INSERT_TIMES, (s_id, e_id, t,))
+
+#this file updates the swimdata files into 
+#SQLite database called "CoachDB.sqlite3" 
