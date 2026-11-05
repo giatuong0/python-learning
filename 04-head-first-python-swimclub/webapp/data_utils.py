@@ -14,6 +14,9 @@ db_details = "CoachDB.sqlite3"
 
 from queries import *
 
+from pathlib import Path
+
+db_details = str(Path(__file__).parent / "CoachDB.sqlite3") #ai code to fix path
 
 def get_swim_sessions():
     """Return a tuple-list of unique session timestamps."""

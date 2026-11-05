@@ -1,5 +1,13 @@
 import os
+from pathlib import Path
+
+os.chdir(Path(__file__).parent) 
+#changes the working folder of the program to the folder that holds app.py. 
+#After that line, every relative path ("CoachDB.sqlite3", "swimdata/") works no matter how or where you started the app
+
+import os
 import swimclub
+import data_utils
 from flask import Flask, request,session , render_template
 print("WORKING DIR:", os.getcwd()) #(check for working dir of VScode)
 
@@ -22,6 +30,18 @@ def populate_data():
             if name not in session["swimmers"]:
                 session["swimmers"][name] = []
             session["swimmers"][name].append(file)
+
+@app.get("/swims")
+def display_swims_sessions():
+    data = data_utils.get_swim_sessions()
+    dates = [session[0].split(" ")[0] for session in data]
+    return render_template(
+        "select.html",
+        title="Select a Swim Session",
+        url="/swimmers",
+        select_id="chosen_date",
+        data=dates
+    )
 
 @app.get("/swimmers")
 def display_swimmers():
