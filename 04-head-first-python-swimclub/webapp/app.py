@@ -43,34 +43,44 @@ def display_swims_sessions():
         data=dates
     )
 
-@app.get("/swimmers")
+@app.post("/swimmers")
 def display_swimmers():
-    populate_data()
+    session["chosen_date"]= request.form["chosen_date"]
+    data=data_utils.get_session_swimmers(session["chosen_date"])
+    swimmers = [f"{swimmer[0]}-{swimmer[1]}" for swimmer in data]
     return render_template(
         "select.html",
         title="Select a Swimmer",
-        url="/showfiles",
+        url="/showevents",
         select_id="swimmer",
-        data=sorted(session["swimmers"])
+        data=sorted(swimmers)
     )
 
-@app.post("/showfiles")
-def display_swimmer_files():
-    populate_data()
-    name = request.form["swimmer"]
+@app.post("/showevents")
+def display_swimmer_events():
+    session["swimmer"], session["age"] = request.form["swimmer"].split("-")
+    data = data_utils.get_swimmers_events(
+            session["swimmer"], session["age"], session["chosen_date"]
+    )
+    events = [f"{event[0]} {event[1]}" for event in data]
     return render_template(
         "select.html",
         title="Select an event",
         url="/showbarchart",
-        select_id="file",
-        data=session["swimmers"][name]
+        select_id="event",
+        data=events,
     )
 
 @app.post("/showbarchart")
 def show_bar_chart():
-    file_id = request.form["file"]
-    location = swimclub.produce_bar_chart(file_id, "templates/")
-    return render_template(location.split("/")[-1])
+    distance, stroke = request.form["event"].split(" ")
+    data = data_utils.get_swimmers_times(
+        session["swimmer"], session["age"], distance, stroke, session["chosen_date"]
+    )
+    times = [time[0] for time in data]
+    print(times)          # temporary check
+    return "chart coming soon"
+
 
 if __name__ == "__main__":
     app.run(debug=True)
