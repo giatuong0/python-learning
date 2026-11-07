@@ -8,6 +8,7 @@ os.chdir(Path(__file__).parent)
 import os
 import swimclub
 import data_utils
+import convert_utils
 from flask import Flask, request,session , render_template
 print("WORKING DIR:", os.getcwd()) #(check for working dir of VScode)
 
@@ -75,12 +76,23 @@ def display_swimmer_events():
 def show_bar_chart():
     distance, stroke = request.form["event"].split(" ")
     data = data_utils.get_swimmers_times(
-        session["swimmer"], session["age"], distance, stroke, session["chosen_date"]
+        session["swimmer"], 
+        session["age"], 
+        distance, 
+        stroke, 
+        session["chosen_date"],
     )
     times = [time[0] for time in data]
-    print(times)          # temporary check
-    return "chart coming soon"
 
-
+    average_str, times_reversed, scaled = convert_utils.perform_conversions(times)
+    world_records = convert_utils.get_worlds(distance, stroke)
+    header = f"{session['swimmer']} (Under {session['age']}) {distance} {stroke} - {session['chosen_date']}"
+    return render_template(
+        "chart.html",
+    title=header,
+    data=list(zip(times_reversed, scaled)),
+    average=average_str,
+    worlds=world_records,
+    )
 if __name__ == "__main__":
     app.run(debug=True)
