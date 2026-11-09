@@ -89,10 +89,10 @@ def show_bar_chart():
     header = f"{session['swimmer']} (Under {session['age']}) {distance} {stroke} - {session['chosen_date']}"
     return render_template(
         "chart.html",
-    title=header,
-    data=list(zip(times_reversed, scaled)),
-    average=average_str,
-    worlds=world_records,
+        title=header,
+        data=list(zip(times_reversed, scaled)),
+        average=average_str,
+        worlds=world_records,
     )
 if __name__ == "__main__":
     app.run(debug=True)
