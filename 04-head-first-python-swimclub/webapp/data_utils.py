@@ -10,13 +10,20 @@ get_swimmers_times       SQL_CHART_DATA_BY_SWIMMER_EVENT_SESSION  name, age, dis
 
 import DBcm
 
-db_details = "CoachDB.sqlite3"
+## db_details = "CoachDB.sqlite3"
+
+db_details = {
+    "host": "localhost",
+    "database": "swimDB",
+    "user": "swimuser",
+    "password": "swimpasswd",
+}
 
 from queries import *
 
 from pathlib import Path
 
-db_details = str(Path(__file__).parent / "CoachDB.sqlite3") #ai code to fix path
+##db_details = str(Path(__file__).parent / "CoachDB.sqlite3") #ai code to fix path but no longer needed becuz changed to mariaDB
 
 def get_swim_sessions():
     """Return a tuple-list of unique session timestamps."""
