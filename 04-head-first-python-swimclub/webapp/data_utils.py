@@ -16,8 +16,11 @@ db_details = {
     "host": "localhost",
     "database": "swimDB",
     "user": "swimuser",
-    "password": "swimpasswd",
+    "password": "swimpasswd"
 }
+# NOTE: password hardcoded for learning only (local DB).
+# In production, load it from an environment variable or .env file (not git).
+
 
 from queries import *
 
