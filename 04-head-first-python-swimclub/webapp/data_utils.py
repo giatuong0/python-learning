@@ -12,13 +12,25 @@ import DBcm
 
 ## db_details = "CoachDB.sqlite3"
 
-db_details = {
+import platform
+
+if "aws" in platform.uname().release:
+    #running on Pythonanywhere.
+    db_details = {
+        "host": "giatuong0.mysql.pythonanywhere-services.com",
+        "database": "giatuong0$default",
+        "user": "giatuong0",
+        "password": "swimpasswd"
+    }
+else:
+    #running locally.
+    db_details = {
     "host": "localhost",
     "database": "swimDB",
     "user": "swimuser",
     "password": "swimpasswd"
 }
-# NOTE: password hardcoded for learning only (local DB).
+# NOTE: password hardcoded for learning only.
 # In production, load it from an environment variable or .env file (not git).
 
 
